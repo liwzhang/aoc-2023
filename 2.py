@@ -103,14 +103,34 @@ input = input.splitlines()
 rules = {"red": 12, "green": 13, "blue": 14}
 sum = 0
 for line in input:
-  id, game = line.split(":")
-  breaks_rules = False
+  game = line.split(":")[1]
+  min_num = {}
   cur_set = game.replace(";", ",")
   cur_set = cur_set.split(",")
   for s in cur_set:
     num, color = s.split()
-    if int(num) > rules[color]:
-      breaks_rules = True
-  if not breaks_rules:
-    sum += int(id.split()[1])
-  print(game, sum)
+    num = int(num)
+    if color in min_num:
+      if num > min_num[color]:
+        min_num[color] = num
+    else:
+      min_num[color] = num
+  game_power = 1
+  for color, num in min_num.items():
+    game_power *= num
+  sum += game_power
+  print(sum)
+
+# Part 1
+# for line in input:
+#   id, game = line.split(":")
+#   breaks_rules = False
+#   cur_set = game.replace(";", ",")
+#   cur_set = cur_set.split(",")
+#   for s in cur_set:
+#     num, color = s.split()
+#     if int(num) > rules[color]:
+#       breaks_rules = True
+#   if not breaks_rules:
+#     sum += int(id.split()[1])
+#   print(game, sum)
